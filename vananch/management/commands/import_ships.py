@@ -52,6 +52,7 @@ class Command(BaseCommand):
         # Process our data
         print("Processing data...")
         for s in ship_data:
+            print(s)
             name = s['SHIPNAME']
             mmsi = s['MMSI']
             lat = s['LAT']
@@ -71,10 +72,10 @@ class Command(BaseCommand):
                     imo = int(s['IMO']),
                     marine_traffic_id = int(s['SHIP_ID']),
                 )
-                if hasattr(s, 'LENGTH'):
+                if 'LENGTH' in s:
                     ship.length = int(s['LENGTH'])
-                if hasattr(s, 'FLAG'):
-                    ship.length = s['FLAG']
+                if 'FLAG' in s:
+                    ship.flag = s['FLAG']
                 ship.save()
 
             print(f'Recording location of {ship_str}')
@@ -84,8 +85,8 @@ class Command(BaseCommand):
                 latitude = float(s['LAT']),
                 longitude = float(s['LON']),
             )
-            if hasattr(s, 'COURSE'):
-                ship.length = int(s['COURSE'])
-            if hasattr(s, 'SPEED'):
-                ship.length = int(s['SPEED'])
+            if 'COURSE' in s:
+                record.course = int(s['COURSE'])
+            if 'SPEED' in s:
+                record.speed = int(s['SPEED'])
             record.save()

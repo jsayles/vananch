@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Ship(models.Model):
@@ -11,6 +12,9 @@ class Ship(models.Model):
 
     def __str__(self):
         return "%s (%d)" % (self.name, self.mmsi)
+
+    def get_flag_url(self):
+        return "/static/flags/%s.gif" % str(self.flag).lower()
 
 
 class ShipRecord(models.Model):

@@ -1,3 +1,5 @@
+{% load static  %}
+
 <html>
 
 <style>
@@ -7,20 +9,21 @@
 
   #map_canvas {
       width: 100%;
-      height: 98%;
+      height: 100%;
   }
 </style>
 
 <div id="map_wrapper">
   <div id="map_canvas" class="mapping"></div>
 </div>
+<!--
 <div>
   <strong>Import Times:</strong>
   {% for import in import_times %}
     <a href="">{{ import.record_ts }}</a> {% if not forloop.last %}|{% endif %}
   {% endfor %}
-  </select>
 </div>
+-->
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
@@ -46,14 +49,14 @@ function initialize() {
     // Multiple Markers
     var markers = [
         {% for r in records %}
-          ['{{ r.ship.name }}', {{ r.latitude }}, {{ r.longitude }}],
+          ['{{ r.ship.name }}', {{ r.latitude }}, {{ r.longitude }}, '{{ r.ship.get_flag_url }}'],
         {% endfor %}
     ];
 
     // Info Window Content
     var infoWindowContent = [
         {% for r in records %}
-          ['{{ r.ship.name }}: MMSI={{ r.ship.mmsi }}, IMO={{ r.ship.imo }}'],
+          ['<img src="{{ r.ship.get_flag_url }}"/> {{ r.ship.name }}: MMSI={{ r.ship.mmsi }}, IMO={{ r.ship.imo }}'],
         {% endfor %}
     ];
 
@@ -64,10 +67,12 @@ function initialize() {
     for( i = 0; i < markers.length; i++ ) {
         var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
         bounds.extend(position);
+        var image = markers[i][3]
         marker = new google.maps.Marker({
             position: position,
             map: map,
-            title: markers[i][0]
+            title: markers[i][0],
+            icon: image
         });
 
         // Allow each marker to have an info window
