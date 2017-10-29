@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 
+import pycountry
+
 
 class Ship(models.Model):
     name = models.CharField(max_length=128)
@@ -15,6 +17,14 @@ class Ship(models.Model):
 
     def get_flag_url(self):
         return "/static/flags/%s.gif" % str(self.flag).lower()
+
+    @property
+    def country(self):
+        if self.flag:
+            country = pycountry.countries.get(alpha_2=self.flag)
+            if country:
+                return country.name
+
 
 
 class ShipRecord(models.Model):

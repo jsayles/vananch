@@ -1,3 +1,4 @@
+{% load ship_info %}
 {% load static  %}
 
 <html>
@@ -64,7 +65,7 @@ function initialize() {
     // Info Window Content
     var infoWindowContent = [
         {% for r in records %}
-          ['<img src="{{ r.ship.get_flag_url }}"/> {{ r.ship.name }}: MMSI={{ r.ship.mmsi }}, IMO={{ r.ship.imo }}'],
+          ['{% ship_info r.ship %}'],
         {% endfor %}
     ];
 
