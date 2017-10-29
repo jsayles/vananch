@@ -7,12 +7,19 @@
 
   #map_canvas {
       width: 100%;
-      height: 100%;
+      height: 98%;
   }
 </style>
 
 <div id="map_wrapper">
   <div id="map_canvas" class="mapping"></div>
+</div>
+<div>
+  <strong>Import Times:</strong>
+  {% for import in import_times %}
+    <a href="">{{ import.record_ts }}</a> {% if not forloop.last %}|{% endif %}
+  {% endfor %}
+  </select>
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

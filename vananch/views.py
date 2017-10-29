@@ -4,7 +4,11 @@ from .models import Ship, ShipRecord
 
 
 def map(request):
-    last_import_ts = ShipRecord.objects.all().order_by('record_ts').last().record_ts
-    records = ShipRecord.objects.filter(record_ts=last_import_ts)
-    context = {'records':records}
+    import_times =  ShipRecord.objects.all().order_by('-record_ts').values('record_ts').distinct()[:10]
+    last_import_ts = import_times[0]['record_ts']
+    most_recent_records = ShipRecord.objects.filter(record_ts=last_import_ts)
+    context = {
+        'import_times': import_times,
+        'records':most_recent_records,
+    }
     return render(request, 'map.html', context)
