@@ -9,10 +9,18 @@
 
   #map_canvas {
       width: 100%;
-      height: 100%;
+      height: 95%;
   }
 </style>
 
+<div style="float:right;">
+  <form method="GET" action="{% url 'import' %}">
+    <input type="submit" name="import" value="Import New Data"/>
+  </form>
+</div>
+<div>
+  <strong>English Bay Ships:</strong> {{ import_ts }}
+</div>
 <div id="map_wrapper">
   <div id="map_canvas" class="mapping"></div>
 </div>
