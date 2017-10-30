@@ -1,3 +1,4 @@
+{% load settings_value %}
 {% load ship_info %}
 {% load static  %}
 
@@ -49,13 +50,13 @@
   <div id="map_canvas" class="mapping"></div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
 
 <script>
   jQuery(function($) {
     // Asynchronously Load the map API
     var script = document.createElement('script');
-    script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=initialize";
+    script.src = "https://maps.googleapis.com/maps/api/js?key={% settings_value "GOOGLE_MAP_KEY" %}&callback=initialize";
     document.body.appendChild(script);
 });
 
