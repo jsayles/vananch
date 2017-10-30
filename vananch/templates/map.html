@@ -3,36 +3,51 @@
 
 <html>
 
-<style>
-  #map_wrapper {
-      /*height: 800px;*/
-  }
+  <style>
+    #header {
+        height: 5%;
+        text-align: center;
+        background-color: lightgray;
+    }
 
-  #map_canvas {
-      width: 100%;
-      height: 95%;
-  }
-</style>
+    #header_table {
+        width: 100%;
+    }
 
-<div style="float:right;">
-  <form method="GET" action="{% url 'import' %}">
-    <input type="submit" name="import" value="Import New Data"/>
-  </form>
-</div>
-<div>
-  <strong>English Bay Ships:</strong> {{ import_ts }}
-</div>
+    #map_canvas {
+        width: 100%;
+        height: 95%;
+    }
+  </style>
+
+  <div id="header">
+    <table id="header_table">
+    <tr>
+      <td>
+        <strong>English Bay Ships:</strong> {{ import_ts|date:"F d, Y" }}
+      </td>
+      <td>
+        {% for i in prev_imports %}
+          <a href="{% url 'map' i.id %}">{{ i.created_ts|date:"h:i" }}</a> |
+        {% endfor %}
+        {{ import_ts|date:"h:i" }}
+        {% for i in next_imports %}
+          {% if forloop.first %}|{% endif %}
+          <a href="{% url 'map' i.id %}">{{ i.created_ts|date:"h:i" }}</a>
+          {% if not forloop.last %}|{% endif %}
+        {% endfor %}
+      </td>
+      <form method="GET" action="{% url 'import' %}">
+      <td style="text-align:right;">
+          <input type="submit" name="import" value="Import New Data"/>
+      </td>
+      </form>
+    </table>
+  </div>
+
 <div id="map_wrapper">
   <div id="map_canvas" class="mapping"></div>
 </div>
-<!--
-<div>
-  <strong>Import Times:</strong>
-  {% for import in import_times %}
-    <a href="">{{ import.record_ts }}</a> {% if not forloop.last %}|{% endif %}
-  {% endfor %}
-</div>
--->
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
@@ -58,7 +73,7 @@ function initialize() {
     // Multiple Markers
     var markers = [
         {% for r in records %}
-          ['{{ r.ship.name }}', {{ r.latitude }}, {{ r.longitude }}, '{{ r.ship.get_flag_url }}'],
+          ['{{ r.ship.name }}', {{ r.latitude }}, {{ r.longitude }}, '{{ r.ship.flag_url }}'],
         {% endfor %}
     ];
 

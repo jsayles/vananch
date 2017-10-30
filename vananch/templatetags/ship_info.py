@@ -10,7 +10,7 @@ def ship_info(ship):
     mmsi = ship.mmsi
     imo = ship.imo
     length = ship.length
-    flag_url = ship.get_flag_url()
+    flag_url = ship.flag_url
     country = ship.country
 
     html = f' \
