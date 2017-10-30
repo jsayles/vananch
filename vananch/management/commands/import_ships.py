@@ -8,6 +8,16 @@ class Command(BaseCommand):
     help = "Import Ship Data"
     requires_system_checks = True
 
+    def add_arguments(self, parser):
+        # Named (optional) arguments
+        parser.add_argument(
+            '--quiet',
+            action='store_true',
+            dest='run_quiet',
+            default=False,
+            help='Quiet all print statements',
+        )
+
     def handle(self, *args, **options):
         if not hasattr(settings, 'PORT_URL'):
             raise CommandError("Missing PORT_URL setting")
@@ -15,4 +25,4 @@ class Command(BaseCommand):
             raise CommandError("Missing USER_AGENT setting")
 
         importer = ShipImporter()
-        importer.import_ships(quiet=False)
+        importer.import_ships(quiet=options['run_quiet'])
