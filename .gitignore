@@ -17,4 +17,4 @@ databases
 __pycache__/
 docs/_build/*
 db.sqlite3
-
+.venv/
